@@ -1,0 +1,97 @@
+* {
+  color: black;
+}
+
+header {
+  height: 31px;
+  background-color: brown;
+  border-bottom: 3px solid burlywood;
+  padding-left: 30px;
+}
+
+footer {
+  background-color: brown;
+  border-top: 3px solid burlywood;
+}
+
+footer h5 {
+  margin: 5px;
+}
+
+#containel {
+  overflow: hidden;
+}
+
+.menu {
+  width: 100px;
+  height: 30px;
+  background-color: aliceblue;
+  text-align: center;
+  border-right: 1px solid brown;
+  float: left;
+}
+
+.login {
+  width: 100px;
+  height: 30px;
+  background-color: aliceblue;
+  text-align: center;
+  float: right;
+}
+
+.menu:hover {
+  background-color: burlywood;
+}
+
+.login:hover {
+  background-color: burlywood;
+}
+
+.index_item_list {
+  width: 200px;
+  height: 300px;
+  background-color: blanchedalmond;
+  margin: 10px;
+  padding: 5px;
+  border: 1px solid;
+  float: left;
+  cursor: pointer;
+}
+
+.index_item_list img {
+  width: 100%;
+  height: 200px;
+}
+
+.index_item_list p {
+  text-align: center;
+}
+
+.detail_item_list {
+  width: 400px;
+  height: 500px;
+  background-color: blanchedalmond;
+  margin: 10px;
+  padding: 5px;
+  border: 1px solid;
+  cursor: pointer;
+  position: relative;
+}
+
+.detail_item_list img {
+  width: 100%;
+  height: 300px;
+}
+
+.detail_item_list p {
+  text-align: center;
+}
+
+.detail_item_list button {
+  margin-left: -5px;
+  width: 100%;
+  height: 30px;
+  position: absolute;
+  float: left;
+  bottom: 0;
+}
