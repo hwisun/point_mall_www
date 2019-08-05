@@ -9,6 +9,7 @@ import Home from './point_mall/Home';
 import Login from './point_mall/Login';
 import MyItems from './point_mall/MyItems'
 import ItemDetail from './point_mall/ItemDetail'
+import CartItems from './point_mall/CartItems'
 
 import Footer from './point_mall/Footer'
 
@@ -23,6 +24,7 @@ function App() {
           <Route exact path='/me/items' component={MyItems} />
           <Route exact path='/items/:itemId' component={ItemDetail} />
           <Route exact path='/cates/:cateId' component={Home} />
+          <Route exact path='/cart/items' component={CartItems} />
         </Switch>
         <Footer />
     </Router>

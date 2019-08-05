@@ -33,25 +33,28 @@ class Header extends React.Component {
     render() {
         const cates = this.state.cates.map((cate) => {
             return(
-                <div key={cate.id} className='menu'>
+                <div key={cate.id} className='header_l'>
                     <Link to={'/cates/' + cate.id} >{cate.title}</Link>
                 </div>
             )
         })
         return (
             <header>
-                <div className='menu'>
+                <div className='header_l'>
                     <Link to='/'>Home</Link>
                 </div>
-                {cates}
-                {localStorage.getItem('authorization') ?
-                    <div className='menu'>
-                        <Link to='/me/items'>MyItems</Link>
-                    </div>
-                : ''}
-                <div className='login'>
+                {cates}         
+                <div className='header_r'>
                 {localStorage.getItem('authorization') ?
                 <Link to='/' onClick={this.onLogout}>Logout</Link> : <Link to='/login'>Login</Link>}
+                </div>
+                {localStorage.getItem('authorization') ?
+                    <div className='header_r'>
+                        <Link to='/me/items'>MyItems</Link>
+                    </div>
+                    : ''}
+                <div className='header_r'>
+                    <Link to='/cart/items'>Cart</Link>
                 </div>
             </header>
         )

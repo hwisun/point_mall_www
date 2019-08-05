@@ -50,6 +50,34 @@ class ItemDetail extends React.Component {
             })
     }
 
+
+    addToCart = () => {
+        const items = this.state.items;
+        let cartItems = localStorage.getItem('cart_items');
+        if (cartItems == null || cartItems.length < 1) {
+            cartItems = [];
+        } else {
+            cartItems = JSON.parse(cartItems);
+        }
+        
+        let isAdded = false;
+        for (let cartItem of cartItems) {
+            if (cartItem.items.id === items.id) {
+                cartItem.count++;
+                isAdded = true;
+                break;
+            }
+        }
+        if(!isAdded) {
+            cartItems.push({
+                items: items,
+                count: 1
+            })
+        }
+
+        localStorage.setItem('cart_items', JSON.stringify(cartItems));
+    }
+
     render() {
         const item = this.state.items;
         const image = item ? item.image : '';
@@ -64,6 +92,7 @@ class ItemDetail extends React.Component {
                     <p>{title}</p>
                     <p>{desc}</p>
                     <button onClick={this.onPurchase}>구입</button>
+                    <button onClick={this.addToCart}>장바구니에 담기</button>
                 </div>
             </div>
         )
