@@ -1,3 +1,5 @@
+import Axios from 'axios'
+
 class DataHelper {
     static baseURL() {
         return 'http://localhost:8005';

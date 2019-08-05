@@ -90,11 +90,12 @@ class ItemDetail extends React.Component {
             <div id='containel'>
                 <h3>아이템 상세페이지</h3>
                 <div className='detail_item_list'>
+                    <button onClick={this.onPurchase}>구입</button>
+                    <button onClick={this.addToCart}>장바구니에 담기</button>
                     <img src={image} alt='이미지' />
                     <p>{title}</p>
                     <p>{desc}</p>
-                    <button onClick={this.onPurchase}>구입</button>
-                    <button onClick={this.addToCart}>장바구니에 담기</button>
+                    
                 </div>
             </div>
         )

@@ -65,6 +65,14 @@ footer h5 {
   width: 100%;
   height: 200px;
 }
+.index_item_list img:hover {
+  border: 1px solid;
+  transform: scale(1.2);
+  -webkit-transform: scale(1.2);
+  -moz-transform: scale(1.2);
+  -ms-transform: scale(1.2);
+  -o-transform: scale(1.2);
+}
 
 .index_item_list p {
   text-align: center;
@@ -86,15 +94,21 @@ footer h5 {
   height: 350px;
 }
 
+/* .detail_item_list img:hover {
+  border: 1px solid;
+  transform: scale(1.2);
+  -webkit-transform: scale(1.2);
+  -moz-transform: scale(1.2);
+  -ms-transform: scale(1.2);
+  -o-transform: scale(1.2);
+} */
+
 .detail_item_list p {
   text-align: center;
 }
 
-/* .detail_item_list button {
-  margin-left: -5px;
-  width: 100%;
+.detail_item_list button {
+  width: 50%;
   height: 30px;
-  position: absolute;
-  float: left;
-  bottom: 0;
-} */
+  float: right;
+}

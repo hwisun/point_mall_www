@@ -1,6 +1,6 @@
 import React from 'react'
 import Axios from 'axios'
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
 import DataHelper from '../DataHelper'
 import ItemBox from './ItemBox'
@@ -13,23 +13,26 @@ class Home extends React.Component {
         super(props);
         this.state = {
             items: [],
+            cateId: this.props.match.params.cateId,
             cates: null
         }
     }
 
     componentDidUpdate(prevProps) {
         if (this.props.match.params.cateId !== prevProps.match.params.cateId){
+            this.state.cateId = this.props.match.params.cateId
+
             this.getItems();
             this.getCates();
         } 
     }
 
     componentDidMount() {
-        this.getItems();
+        this.getItems()
     }
 
     getItems() {
-        const cateId = this.props.match.params.cateId
+        const cateId = this.state.cateId;
         let url = DataHelper.baseURL() + '/items/'
         if (cateId) {
             url = DataHelper.baseURL() + '/cates/'+cateId+'/items/'
@@ -45,7 +48,7 @@ class Home extends React.Component {
     }
 
     getCates() {
-        const cateId = this.props.match.params.cateId
+        const cateId = this.state.cateId;
         Axios.get(DataHelper.baseURL() + '/cates/' + cateId + '/')
             .then(response => {
                 const cates = response.data;
