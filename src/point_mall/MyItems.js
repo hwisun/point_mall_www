@@ -1,6 +1,7 @@
 import React from 'react'
 import Axios from 'axios'
 
+import DataHelper from '../DataHelper'
 import ItemBox from './ItemBox'
  
 class MyItems extends React.Component {
@@ -20,10 +21,10 @@ class MyItems extends React.Component {
 
     getUser() {
         Axios.get(
-            'http://localhost:8005/me/',
+            DataHelper.baseURL() + '/me/',
             {
                 headers: {
-                    'Authorization': localStorage.getItem('authorization')
+                    'Authorization': DataHelper.getAuthToken()
                 }
             }
         )
@@ -37,10 +38,10 @@ class MyItems extends React.Component {
 
     getItems() {
         Axios.get(
-            'http://localhost:8005/me/items/',
+            DataHelper.baseURL() + '/me/items/',
             {
                 headers: {
-                    'Authorization': localStorage.getItem('authorization')
+                    'Authorization': DataHelper.getAuthToken()
                 }
             }
         )

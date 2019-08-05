@@ -2,6 +2,8 @@ import React from 'react'
 import { Link, withRouter } from 'react-router-dom';
 import Axios from 'axios'
 
+import DataHelper from '../DataHelper'
+
 class Header extends React.Component {
 
     constructor(props) {
@@ -16,7 +18,7 @@ class Header extends React.Component {
     }
 
     getCates() {
-        Axios.get('http://localhost:8005/cates/')
+        Axios.get(DataHelper.baseURL() + '/cates/')
             .then(response => {
                 const cates = response.data;
                 this.setState({
@@ -26,7 +28,7 @@ class Header extends React.Component {
     }
 
     onLogout = () => {
-        localStorage.removeItem('authorization');
+        localStorage.removeItem('auth_token');
         this.props.history.push('/');
     }
 
@@ -45,10 +47,10 @@ class Header extends React.Component {
                 </div>
                 {cates}         
                 <div className='header_r'>
-                {localStorage.getItem('authorization') ?
+                    {DataHelper.getAuthToken() ?
                 <Link to='/' onClick={this.onLogout}>Logout</Link> : <Link to='/login'>Login</Link>}
                 </div>
-                {localStorage.getItem('authorization') ?
+                {DataHelper.getAuthToken() ?
                     <div className='header_r'>
                         <Link to='/me/items'>MyItems</Link>
                     </div>

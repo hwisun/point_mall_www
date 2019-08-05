@@ -2,6 +2,8 @@ import React, {Component} from 'react'
 import Axios from 'axios'
 import { withRouter } from 'react-router-dom';
 
+import DataHelper from '../DataHelper'
+
 class Login extends Component {
 
     constructor(props) {
@@ -27,7 +29,7 @@ class Login extends Component {
 
     onLogin = () => {
         Axios.post(
-            'http://localhost:8005/o/token/',
+            DataHelper.baseURL() + '/o/token/',
             {
                 grant_type: 'password',
                 client_id: 'G9Ujryn5LFKwBxGAPOyepsqUMVheJziU2imYRymh',
@@ -36,7 +38,7 @@ class Login extends Component {
             }
         ).then((response) => {
             const token = response.data;
-            localStorage.setItem('authorization', token.token_type + ' ' + token.access_token);
+            DataHelper.setAuthToken(token);
             this.props.history.push('/');
         })
     }

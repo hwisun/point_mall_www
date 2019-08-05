@@ -2,6 +2,7 @@ import React from 'react'
 import Axios from 'axios'
 import { Link, withRouter } from 'react-router-dom';
 
+import DataHelper from '../DataHelper'
 import ItemBox from './ItemBox'
 
 
@@ -29,9 +30,9 @@ class Home extends React.Component {
 
     getItems() {
         const cateId = this.props.match.params.cateId
-        let url = 'http://localhost:8005/items/'
+        let url = DataHelper.baseURL() + '/items/'
         if (cateId) {
-            url = 'http://localhost:8005/cates/'+cateId+'/items/'
+            url = DataHelper.baseURL() + '/cates/'+cateId+'/items/'
         }
         
         Axios.get(url)
@@ -45,7 +46,7 @@ class Home extends React.Component {
 
     getCates() {
         const cateId = this.props.match.params.cateId
-        Axios.get('http://localhost:8005/cates/' + cateId + '/')
+        Axios.get(DataHelper.baseURL() + '/cates/' + cateId + '/')
             .then(response => {
                 const cates = response.data;
                 this.setState({

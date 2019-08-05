@@ -2,6 +2,7 @@ import React from 'react'
 import Axios from 'axios'
 import { withRouter } from 'react-router-dom'
 
+import DataHelper from '../DataHelper'
 import ItemBox from './ItemBox'
 
 class CartItems extends React.Component {
@@ -46,13 +47,13 @@ class CartItems extends React.Component {
             })
         }
         Axios.post(
-            'http://localhost:8005/items/purchase/',
+            DataHelper.baseURL() + '/items/purchase/',
             {
                 items
             },
             {
                 headers: {
-                    'Authorization': localStorage.getItem('authorization')
+                    'Authorization': DataHelper.getAuthToken()
                 }
             }
         ).then((response) => {
@@ -77,11 +78,11 @@ class CartItems extends React.Component {
         } else {
             const itemId = itemsQueue.shift();
             Axios.post(
-            'http://localhost:8005/items/' + itemId + '/purchase/',
+                DataHelper.baseURL() + '/items/' + itemId + '/purchase/',
                 {},
                 {
                     headers: {
-                        'Authorization': localStorage.getItem('authorization')
+                        'Authorization': DataHelper.getAuthToken()
                     }
                 }
             ).then((response) => {
@@ -107,7 +108,8 @@ class CartItems extends React.Component {
         return (
             <div id='containel'>
                 <h3>나의 장바구니 목록</h3>
-                <button onClick={this.onPurchase}>구입</button>
+                <button onClick={this.onPurchase}>전부구입</button>
+                <br />
                 {items}
             </div>
         )
