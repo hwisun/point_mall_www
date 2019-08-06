@@ -6,6 +6,8 @@ import ItemBox from './ItemBox'
  
 class MyItems extends React.Component {
 
+    helper = new DataHelper();
+    
     constructor(props) {
         super(props);
         this.state = {
@@ -21,10 +23,10 @@ class MyItems extends React.Component {
 
     getUser() {
         Axios.get(
-            DataHelper.baseURL() + '/me/',
+            this.helper.baseURL() + '/me/',
             {
                 headers: {
-                    'Authorization': DataHelper.getAuthToken()
+                    'Authorization': this.helper.getAuthToken()
                 }
             }
         )
@@ -38,10 +40,10 @@ class MyItems extends React.Component {
 
     getItems() {
         Axios.get(
-            DataHelper.baseURL() + '/me/items/',
+            this.helper.baseURL() + '/me/items/',
             {
                 headers: {
-                    'Authorization': DataHelper.getAuthToken()
+                    'Authorization': this.helper.getAuthToken()
                 }
             }
         )

@@ -9,6 +9,8 @@ import ItemBox from './ItemBox'
 
 class Home extends React.Component {
 
+    helper = new DataHelper();
+
     constructor(props) {
         super(props);
         this.state = {
@@ -33,9 +35,9 @@ class Home extends React.Component {
 
     getItems() {
         const cateId = this.state.cateId;
-        let url = DataHelper.baseURL() + '/items/'
+        let url = this.helper.baseURL() + '/items/'
         if (cateId) {
-            url = DataHelper.baseURL() + '/cates/'+cateId+'/items/'
+            url = this.helper.baseURL() + '/cates/'+cateId+'/items/'
         }
         
         Axios.get(url)
@@ -49,7 +51,7 @@ class Home extends React.Component {
 
     getCates() {
         const cateId = this.state.cateId;
-        Axios.get(DataHelper.baseURL() + '/cates/' + cateId + '/')
+        Axios.get(this.helper.baseURL() + '/cates/' + cateId + '/')
             .then(response => {
                 const cates = response.data;
                 this.setState({

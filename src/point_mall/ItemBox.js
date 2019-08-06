@@ -5,6 +5,8 @@ import DataHelper from '../DataHelper'
 
 class ItemBox extends React.Component {
 
+    helper = new DataHelper();
+    
     goToItem = () => {
         const item = this.props.item;
         this.props.history.push('/items/' + item.id)
@@ -15,7 +17,7 @@ class ItemBox extends React.Component {
         const count = this.props.count
         let image = item.image;
         if (!image.startsWith('http')) {
-            image = DataHelper.baseURL() + image;
+            image = this.helper.baseURL() + image;
         }
         const title = item.title;
         const price = item.price;

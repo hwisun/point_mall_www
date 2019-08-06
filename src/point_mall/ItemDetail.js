@@ -5,6 +5,9 @@ import { withRouter } from 'react-router-dom';
 import DataHelper from '../DataHelper'
 
 class ItemDetail extends React.Component {
+    
+    helper = new DataHelper();
+
     constructor(props) {
         super(props);
         this.state = {
@@ -19,7 +22,7 @@ class ItemDetail extends React.Component {
 
     getItem() {
         Axios.get(
-            DataHelper.baseURL() + '/items/' + this.state.itemId + '/'
+            this.helper.baseURL() + '/items/' + this.state.itemId + '/'
         )
             .then((response) => {
                 const items = response.data;
@@ -31,11 +34,11 @@ class ItemDetail extends React.Component {
 
     onPurchase = () => {
         Axios.post(
-            DataHelper.baseURL() + '/items/' + this.state.itemId + '/purchase/',
+            this.helper.baseURL() + '/items/' + this.state.itemId + '/purchase/',
             {},
             {
                 headers: {
-                    'Authorization': DataHelper.getAuthToken()
+                    'Authorization': this.helper.getAuthToken()
                 }
             }
         )

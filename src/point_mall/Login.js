@@ -6,11 +6,13 @@ import DataHelper from '../DataHelper'
 
 class Login extends Component {
 
+    helper = new DataHelper();
+    
     constructor(props) {
         super(props);
         this.state = {
-            username: '',
-            password: '',
+            username: 'user',
+            password: '1234',
         }
     }
 
@@ -29,7 +31,7 @@ class Login extends Component {
 
     onLogin = () => {
         Axios.post(
-            DataHelper.baseURL() + '/o/token/',
+            this.helper.baseURL() + '/o/token/',
             {
                 grant_type: 'password',
                 client_id: 'G9Ujryn5LFKwBxGAPOyepsqUMVheJziU2imYRymh',
@@ -38,7 +40,7 @@ class Login extends Component {
             }
         ).then((response) => {
             const token = response.data;
-            DataHelper.setAuthToken(token);
+            this.helper.setAuthToken(token);
             this.props.history.push('/');
         })
     }

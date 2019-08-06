@@ -7,6 +7,8 @@ import ItemBox from './ItemBox'
 
 class CartItems extends React.Component {
 
+    helper = new DataHelper();
+
     constructor(props) {
         super(props);
         this.state = {
@@ -38,7 +40,7 @@ class CartItems extends React.Component {
         //     }
         // }
         // this.NextItem(itemsQueue);
-
+        
         const items = [];
         for (let cartItem of this.state.cartItems) {
             items.push({
@@ -47,13 +49,13 @@ class CartItems extends React.Component {
             })
         }
         Axios.post(
-            DataHelper.baseURL() + '/items/purchase/',
+            this.helper.baseURL() + '/items/purchase/',
             {
                 items
             },
             {
                 headers: {
-                    'Authorization': DataHelper.getAuthToken()
+                    'Authorization': this.helper.getAuthToken()
                 }
             }
         ).then((response) => {
@@ -78,11 +80,11 @@ class CartItems extends React.Component {
         } else {
             const itemId = itemsQueue.shift();
             Axios.post(
-                DataHelper.baseURL() + '/items/' + itemId + '/purchase/',
+                this.helper.baseURL() + '/items/' + itemId + '/purchase/',
                 {},
                 {
                     headers: {
-                        'Authorization': DataHelper.getAuthToken()
+                        'Authorization': this.helper.getAuthToken()
                     }
                 }
             ).then((response) => {
