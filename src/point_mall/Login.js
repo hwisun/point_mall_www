@@ -2,14 +2,15 @@ import React, {Component} from 'react'
 import Axios from 'axios'
 import { withRouter } from 'react-router-dom';
 
-import DataHelper from '../DataHelper'
+import { inject } from 'mobx-react';
 
+@inject('authStore')
 class Login extends Component {
-
-    helper = new DataHelper();
     
     constructor(props) {
         super(props);
+        console.log(props);
+        
         this.state = {
             username: 'user',
             password: '1234',
@@ -30,8 +31,9 @@ class Login extends Component {
     }
 
     onLogin = () => {
+        const { authStore, history } = this.props
         Axios.post(
-            this.helper.baseURL() + '/o/token/',
+            authStore.BASE_URL + '/o/token/',
             {
                 grant_type: 'password',
                 client_id: 'G9Ujryn5LFKwBxGAPOyepsqUMVheJziU2imYRymh',
@@ -40,8 +42,8 @@ class Login extends Component {
             }
         ).then((response) => {
             const token = response.data;
-            this.helper.setAuthToken(token);
-            this.props.history.push('/');
+            authStore.setToken(token);
+            history.push('/');
         })
     }
 

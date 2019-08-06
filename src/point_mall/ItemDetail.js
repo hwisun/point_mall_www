@@ -1,12 +1,10 @@
 import React from 'react'
 import Axios from 'axios'
 import { withRouter } from 'react-router-dom';
+import { inject } from 'mobx-react';
 
-import DataHelper from '../DataHelper'
-
+@inject('authStore')
 class ItemDetail extends React.Component {
-    
-    helper = new DataHelper();
 
     constructor(props) {
         super(props);
@@ -21,8 +19,10 @@ class ItemDetail extends React.Component {
     }
 
     getItem() {
+        const { authStore } = this.props;
+        const url = authStore.BASE_URL + '/items/' + this.state.itemId + '/';
         Axios.get(
-            this.helper.baseURL() + '/items/' + this.state.itemId + '/'
+            url
         )
             .then((response) => {
                 const items = response.data;
@@ -33,21 +33,24 @@ class ItemDetail extends React.Component {
     }
 
     onPurchase = () => {
+        const { authStore, history } = this.props
         Axios.post(
-            this.helper.baseURL() + '/items/' + this.state.itemId + '/purchase/',
+            authStore.BASE_URL + '/items/' + this.state.itemId + '/purchase/',
             {},
             {
                 headers: {
-                    'Authorization': this.helper.getAuthToken()
+                    'Authorization': authStore.authToken
                 }
             }
         )
             .then((response) => {
-                this.props.history.push('/me/items/')
+                history.push('/me/items/')
             })
             .catch((error) => {
+                console.log(error);
+                
                 if (error.response.status === 401) {
-                    this.props.history.push('/login/')
+                    history.push('/login/')
                 }
                 if (error.response.status === 402) {
                     alert('포인트가 부족합니다.')
@@ -64,7 +67,7 @@ class ItemDetail extends React.Component {
         } else {
             cartItems = JSON.parse(cartItems);
         }
-        
+
         let isAdded = false;
         for (let cartItem of cartItems) {
             if (cartItem.items.id === items.id) {
@@ -73,7 +76,7 @@ class ItemDetail extends React.Component {
                 break;
             }
         }
-        if(!isAdded) {
+        if (!isAdded) {
             cartItems.push({
                 items: items,
                 count: 1
@@ -98,7 +101,7 @@ class ItemDetail extends React.Component {
                     <img src={image} alt='이미지' />
                     <p>{title}</p>
                     <p>{desc}</p>
-                    
+
                 </div>
             </div>
         )

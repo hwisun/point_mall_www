@@ -1,11 +1,10 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom'
 
-import DataHelper from '../DataHelper'
+import { inject } from 'mobx-react';
 
+@inject('authStore')
 class ItemBox extends React.Component {
-
-    helper = new DataHelper();
     
     goToItem = () => {
         const item = this.props.item;
@@ -13,11 +12,12 @@ class ItemBox extends React.Component {
     }
 
     render() {
+        const { authStore } = this.props
         const item = this.props.item;
         const count = this.props.count
         let image = item.image;
         if (!image.startsWith('http')) {
-            image = this.helper.baseURL() + image;
+            image = authStore.BASE_URL + image;
         }
         const title = item.title;
         const price = item.price;

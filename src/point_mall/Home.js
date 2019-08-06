@@ -2,17 +2,16 @@ import React from 'react'
 import Axios from 'axios'
 import { withRouter } from 'react-router-dom';
 
-import DataHelper from '../DataHelper'
 import ItemBox from './ItemBox'
+import { inject } from 'mobx-react';
 
 
-
+@inject('authStore')
 class Home extends React.Component {
-
-    helper = new DataHelper();
 
     constructor(props) {
         super(props);
+        
         this.state = {
             items: [],
             cateId: this.props.match.params.cateId,
@@ -23,9 +22,12 @@ class Home extends React.Component {
     componentDidUpdate(prevProps) {
         if (this.props.match.params.cateId !== prevProps.match.params.cateId){
             this.state.cateId = this.props.match.params.cateId
-
             this.getItems();
-            this.getCates();
+            if ( this.props.match.params.cateId != null ) {
+                this.getCates();
+            }
+            
+            
         } 
     }
 
@@ -34,29 +36,34 @@ class Home extends React.Component {
     }
 
     getItems() {
+        const { authStore } = this.props;
         const cateId = this.state.cateId;
-        let url = this.helper.baseURL() + '/items/'
+        let URL = authStore.BASE_URL + '/items/'
+
         if (cateId) {
-            url = this.helper.baseURL() + '/cates/'+cateId+'/items/'
+            URL = authStore.BASE_URL + '/cates/'+cateId+'/items/'
         }
         
-        Axios.get(url)
+        Axios.get(URL)
         .then(response => {
             const items = response.data;
             this.setState({
                 items: items
-            })
+            });
         });
     }
 
     getCates() {
+        const { authStore } = this.props;
         const cateId = this.state.cateId;
-        Axios.get(this.helper.baseURL() + '/cates/' + cateId + '/')
+        let URL = authStore.BASE_URL + '/cates/' + cateId + '/';
+
+        Axios.get(URL)
             .then(response => {
                 const cates = response.data;
                 this.setState({
                     cates: cates
-                })
+                });
             });
     }
 

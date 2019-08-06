@@ -2,13 +2,13 @@ import React from 'react'
 import Axios from 'axios'
 import { withRouter } from 'react-router-dom'
 
-import DataHelper from '../DataHelper'
 import ItemBox from './ItemBox'
+import { inject } from 'mobx-react';
 
+@inject('authStore')
 class CartItems extends React.Component {
-
-    helper = new DataHelper();
-
+    URL = this.props.authStore.BASE_URL;
+    
     constructor(props) {
         super(props);
         this.state = {
@@ -33,15 +33,9 @@ class CartItems extends React.Component {
     }
 
     onPurchase = () => {
-        // const itemsQueue = [] ;
-        // for (let cartItem of this.state.cartItems) {
-        //     for (let i = 0; i < cartItem.count; i++){
-        //         itemsQueue.push(cartItem.items.id);
-        //     }
-        // }
-        // this.NextItem(itemsQueue);
-        
         const items = [];
+        this.URL = this.URL + '/items/purchase/';
+        const { authStore, history } = this.props
         for (let cartItem of this.state.cartItems) {
             items.push({
                 item_id: cartItem.items.id,
@@ -49,21 +43,21 @@ class CartItems extends React.Component {
             })
         }
         Axios.post(
-            this.helper.baseURL() + '/items/purchase/',
+            URL,
             {
                 items
             },
             {
                 headers: {
-                    'Authorization': this.helper.getAuthToken()
+                    'Authorization': authStore.authToken
                 }
             }
         ).then((response) => {
             localStorage.removeItem('cart_items');
-            this.props.history.push('/me/items');
+            history.push('/me/items');
         }).catch((error) => {
             if (error.response.status === 401) {
-                this.props.history.push('/login/')
+                history.push('/login/')
             }
             if (error.response.status === 402) {
                 alert('포인트가 부족합니다.')
@@ -72,26 +66,26 @@ class CartItems extends React.Component {
     }
 
     NextItem(itemsQueue) {
-        console.log(itemsQueue);
-        
+        const { authStore, history } = this.props
         if (itemsQueue.length < 1) {
             localStorage.removeItem('cart_items');
-            this.props.history.push('/me/items/')
+            history.push('/me/items/')
         } else {
             const itemId = itemsQueue.shift();
+            const URL = authStore.BASE_URL + '/items/' + itemId + '/purchase/'
             Axios.post(
-                this.helper.baseURL() + '/items/' + itemId + '/purchase/',
+                URL,
                 {},
                 {
                     headers: {
-                        'Authorization': this.helper.getAuthToken()
+                        'Authorization': authStore.authToken
                     }
                 }
             ).then((response) => {
                 this.NextItem(itemsQueue);
             }).catch((error) => {
                 if (error.response.status === 401) {
-                    this.props.history.push('/login/')
+                    history.push('/login/')
                 }
                 if (error.response.status === 402) {
                     alert('포인트가 부족합니다.')

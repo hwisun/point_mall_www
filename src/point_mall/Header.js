@@ -1,14 +1,10 @@
 import React from 'react'
 import { Link, withRouter } from 'react-router-dom';
-import { observer } from 'mobx-react';
+import { inject } from 'mobx-react';
 import Axios from 'axios'
 
-import DataHelper from '../DataHelper'
-
-@observer
+@inject('authStore')
 class Header extends React.Component {
-    helper = new DataHelper();
-
     constructor(props) {
         super(props);
         this.state = {
@@ -21,7 +17,10 @@ class Header extends React.Component {
     }
 
     getCates() {
-        Axios.get(this.helper.baseURL() + '/cates/')
+        const { authStore } = this.props
+        const URL = authStore.BASE_URL + '/cates/';
+
+        Axios.get(URL)
             .then(response => {
                 const cates = response.data;
                 this.setState({
@@ -31,10 +30,12 @@ class Header extends React.Component {
     }
 
     onLogout = () => {
-        this.helper.deleteToken();
+        const { authStore } = this.props
+        authStore.deleteToken();
     }
 
     render() {
+        const isLoggedIn = this.props.authStore.isLoggedIn
         const cates = this.state.cates.map((cate) => {
             return (
                 <div key={cate.id} className='header_l'>
@@ -50,16 +51,18 @@ class Header extends React.Component {
                 {cates}
                 <div className='header_r'>
                     {
-                        this.helper.isLoggedIn ?
+                        isLoggedIn ?
                             <Link to='/' onClick={this.onLogout}>Logout</Link> :
                             <Link to='/login'>Login</Link>
                     }
                 </div>
-                {this.helper.isLoggedIn ?
+                {
+                    isLoggedIn ?
                     <div className='header_r'>
                         <Link to='/me/items'>MyItems</Link>
                     </div>
-                    : ''}
+                    : ''
+                }
                 <div className='header_r'>
                     <Link to='/cart/items'>Cart</Link>
                 </div>
