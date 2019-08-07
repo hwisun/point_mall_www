@@ -55,9 +55,14 @@ class MyItems extends React.Component {
         )
         .then(response => {
             const userItems = response.data;
+            let total = 0;
+            for (let userItem of userItems) {
+                total += userItem.item.price * userItem.count;
+            }
             this.setState({
-                userItems: userItems
-            })
+                userItems,
+                total
+            });
         });
     }
 
@@ -66,7 +71,6 @@ class MyItems extends React.Component {
         const point = user ? user.point : 0;
         const items = this.state.userItems.map(userItem => {
             const item = userItem.item;
-            this.state.total += item.price * userItem.count;
             return (
                 <ItemBox key={item.id} item={item} count={userItem.count} />  
             )

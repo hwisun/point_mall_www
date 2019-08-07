@@ -83,12 +83,15 @@ class CartItems extends React.Component {
         }
     }
 
+    clearItems = () => {
+        const { itemStore } = this.props
+        itemStore.clearCartItems();
+    }
+
     render() {
         const { itemStore } = this.props
         const items = itemStore.cartItems.map(cartItem => {
-            const item = cartItem.items;
-            const price = item.price;
-            
+            const item = cartItem.items;            
             return (
                 <ItemBox key={item.id} item={item} count={cartItem.count} />
             )
@@ -96,7 +99,8 @@ class CartItems extends React.Component {
          
         return (
             <div id='containel'>
-                <h3>나의 장바구니 목록</h3>
+                <h3>장바구니 목록</h3>
+                <button onClick={this.clearItems}>비우기</button>
                 <button onClick={this.onPurchase}>전부구입</button>
                 <br />
                 {items}

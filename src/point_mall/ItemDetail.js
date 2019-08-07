@@ -2,7 +2,6 @@ import React from 'react'
 import Axios from 'axios'
 import { withRouter } from 'react-router-dom';
 import { inject } from 'mobx-react';
-import ItemStore from '../ItemStore';
 
 @inject('authStore', 'itemStore')
 class ItemDetail extends React.Component {
@@ -10,7 +9,7 @@ class ItemDetail extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            items: null,
+            item: null,
             itemId: this.props.match.params.itemId
         }
     }
@@ -26,9 +25,9 @@ class ItemDetail extends React.Component {
             url
         )
             .then((response) => {
-                const items = response.data;
+                const item = response.data;
                 this.setState({
-                    items: items
+                    item: item
                 })
             })
     }
@@ -60,13 +59,13 @@ class ItemDetail extends React.Component {
 
     addToCart = () => {
         const { itemStore } = this.props;
-        const items = this.state.items;
+        const item = this.state.item;
 
-        itemStore.addItemToCart(items);
+        itemStore.addItemToCart(item);
     }
 
     render() {
-        const item = this.state.items;
+        const item = this.state.item;
         const image = item ? item.image : '';
         const title = item ? item.title : '';
         const desc = item ? item.description : '';

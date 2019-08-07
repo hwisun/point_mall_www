@@ -1,9 +1,10 @@
 import React from 'react'
 import { Link, withRouter } from 'react-router-dom';
-import { inject } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import Axios from 'axios'
 
-@inject('authStore')
+@inject('authStore', 'itemStore')
+@observer
 class Header extends React.Component {
     constructor(props) {
         super(props);
@@ -35,6 +36,7 @@ class Header extends React.Component {
     }
 
     render() {
+        const { itemStore } = this.props
         const isLoggedIn = this.props.authStore.isLoggedIn
         const cates = this.state.cates.map((cate) => {
             return (
@@ -64,7 +66,7 @@ class Header extends React.Component {
                     : ''
                 }
                 <div className='header_r'>
-                    <Link to='/cart/items'>Cart</Link>
+                    <Link to='/cart/items'>Cart {itemStore.cartItemsCount}</Link>
                 </div>
             </header>
         )

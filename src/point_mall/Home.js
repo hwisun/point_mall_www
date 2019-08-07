@@ -21,7 +21,9 @@ class Home extends React.Component {
 
     componentDidUpdate(prevProps) {
         if (this.props.match.params.cateId !== prevProps.match.params.cateId){
-            this.state.cateId = this.props.match.params.cateId
+            this.setState({
+                cateId: this.props.match.params.cateId
+            });
             this.getItems();
             if ( this.props.match.params.cateId != null ) {
                 this.getCates();
