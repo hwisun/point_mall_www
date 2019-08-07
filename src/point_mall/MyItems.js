@@ -12,6 +12,7 @@ class MyItems extends React.Component {
         super(props);
         this.state = {
             userItems: [],
+            total: 0,
             user: null
         }
     }
@@ -65,14 +66,16 @@ class MyItems extends React.Component {
         const point = user ? user.point : 0;
         const items = this.state.userItems.map(userItem => {
             const item = userItem.item;
+            this.state.total += item.price * userItem.count;
             return (
                 <ItemBox key={item.id} item={item} count={userItem.count} />  
             )
         });
         return (
             <div id='containel'>
-                <h3>나의 아이템 목록</h3>
-                <h4>남은 포인트 : {point}</h4>
+                <h3>나의 아이템 내역</h3>
+                <h4>남은 포인트 : {point} P</h4>
+                <h4>사용한 포인트 : {this.state.total} P</h4>
                 {items}
             </div>
         )

@@ -8,9 +8,7 @@ import { inject } from 'mobx-react';
 class Login extends Component {
     
     constructor(props) {
-        super(props);
-        console.log(props);
-        
+        super(props);     
         this.state = {
             username: 'user',
             password: '1234',

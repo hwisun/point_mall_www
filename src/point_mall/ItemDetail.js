@@ -2,8 +2,9 @@ import React from 'react'
 import Axios from 'axios'
 import { withRouter } from 'react-router-dom';
 import { inject } from 'mobx-react';
+import ItemStore from '../ItemStore';
 
-@inject('authStore')
+@inject('authStore', 'itemStore')
 class ItemDetail extends React.Component {
 
     constructor(props) {
@@ -46,9 +47,7 @@ class ItemDetail extends React.Component {
             .then((response) => {
                 history.push('/me/items/')
             })
-            .catch((error) => {
-                console.log(error);
-                
+            .catch((error) => {        
                 if (error.response.status === 401) {
                     history.push('/login/')
                 }
@@ -60,30 +59,10 @@ class ItemDetail extends React.Component {
 
 
     addToCart = () => {
+        const { itemStore } = this.props;
         const items = this.state.items;
-        let cartItems = localStorage.getItem('cart_items');
-        if (cartItems == null || cartItems.length < 1) {
-            cartItems = [];
-        } else {
-            cartItems = JSON.parse(cartItems);
-        }
 
-        let isAdded = false;
-        for (let cartItem of cartItems) {
-            if (cartItem.items.id === items.id) {
-                cartItem.count++;
-                isAdded = true;
-                break;
-            }
-        }
-        if (!isAdded) {
-            cartItems.push({
-                items: items,
-                count: 1
-            })
-        }
-
-        localStorage.setItem('cart_items', JSON.stringify(cartItems));
+        itemStore.addItemToCart(items);
     }
 
     render() {
@@ -91,17 +70,18 @@ class ItemDetail extends React.Component {
         const image = item ? item.image : '';
         const title = item ? item.title : '';
         const desc = item ? item.description : '';
+        const price = item ? item.price : '';
 
         return (
             <div id='containel'>
                 <h3>아이템 상세페이지</h3>
                 <div className='detail_item_list'>
-                    <button onClick={this.onPurchase}>구입</button>
-                    <button onClick={this.addToCart}>장바구니에 담기</button>
                     <img src={image} alt='이미지' />
                     <p>{title}</p>
                     <p>{desc}</p>
-
+                    <p>가격 : {price} P</p>
+                    <button onClick={this.onPurchase}>구입</button>
+                    <button onClick={this.addToCart}>장바구니에 담기</button>
                 </div>
             </div>
         )

@@ -25,7 +25,7 @@ class ItemBox extends React.Component {
             <div className='index_item_list' onClick={this.goToItem}>
                 <img src={image} alt='이미지' />
                 <p>{title}</p>
-                <p>{!count ? '가격 : ' + price : '개수 : ' + count}</p>
+                <p>{!count ? price + ' P' : count + ' 개'}</p>
             </div>
         );
     }
